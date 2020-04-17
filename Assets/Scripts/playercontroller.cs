@@ -64,12 +64,12 @@ public class playercontroller : MonoBehaviour
             if (moveDirection > 0 && !facingRight)
             {
                 facingRight = true;
-                t.localScale = new Vector3(Mathf.Abs(t.localScale.x), t.localScale.y, transform.localScale.z);
+                transform.Rotate(0f, 180f, 0f);
             }
             if (moveDirection < 0 && facingRight)
             {
                 facingRight = false;
-                t.localScale = new Vector3(-Mathf.Abs(t.localScale.x), t.localScale.y, t.localScale.z);
+                transform.Rotate(0f, 180f, 0f);
             }
         }
 
@@ -102,7 +102,7 @@ public class playercontroller : MonoBehaviour
 
         anim.SetBool("iscrouching", false);
 
-        if (Input.GetKeyDown(KeyCode.S) && isGrounded )
+        while (Input.GetKeyDown(KeyCode.S) && isGrounded )
         {
             if (moveDirection == 0)
             {
