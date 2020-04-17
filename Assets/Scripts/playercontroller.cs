@@ -22,10 +22,13 @@ public class playercontroller : MonoBehaviour
     // Check every collider except Player and Ignore Raycast
     LayerMask layerMask = ~(1 << 2 | 1 << 8);
     Transform t;
+    
+    private Animator anim;
 
     // Use this for initialization
     void Start()
     {
+        anim = GetComponent<Animator>();
         t = transform;
         r2d = GetComponent<Rigidbody2D>();
         mainCollider = GetComponent<Collider2D>();
@@ -34,7 +37,7 @@ public class playercontroller : MonoBehaviour
         r2d.gravityScale = gravityScale;
         facingRight = t.localScale.x > 0;
         gameObject.layer = 8;
-
+        
         if (mainCamera)
             cameraPos = mainCamera.transform.position;
     }
@@ -79,6 +82,43 @@ public class playercontroller : MonoBehaviour
         // Camera follow
         if (mainCamera)
             mainCamera.transform.position = new Vector3(t.position.x, cameraPos.y, cameraPos.z);
+        //Animations 
+        if (moveDirection == 0)
+        {
+            anim.SetBool("isrunning", false);
+        }
+        else
+        {
+            anim.SetBool("isrunning", true);
+        }
+
+        if (isGrounded == true && Input.GetKeyDown(KeyCode.W))
+            anim.SetTrigger("jumping");
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            anim.SetTrigger("attack");
+        }
+
+        anim.SetBool("iscrouching", false);
+
+        if (Input.GetKeyDown(KeyCode.S) && isGrounded )
+        {
+            if (moveDirection == 0)
+            {
+                anim.SetBool("iscrouching", true);
+            }
+
+            else
+            {
+                anim.SetTrigger("crouchdash");
+                anim.SetBool("iscrouching", false);
+            }
+
+
+
+        }
+
     }
 
     void FixedUpdate()
