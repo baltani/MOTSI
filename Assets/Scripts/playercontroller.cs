@@ -102,7 +102,7 @@ public class playercontroller : MonoBehaviour
 
         anim.SetBool("iscrouching", false);
 
-        while (Input.GetKeyDown(KeyCode.S) && isGrounded )
+        if (Input.GetKeyDown(KeyCode.S) && isGrounded )
         {
             if (moveDirection == 0)
             {
