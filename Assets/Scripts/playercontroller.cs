@@ -55,8 +55,8 @@ public class playercontroller : MonoBehaviour
         // Movement controls
         if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && (isGrounded || r2d.velocity.x > 0.01f))
         {
-            if(!is_crouching)
-            moveDirection = Input.GetKey(KeyCode.A) ? -1 : 1;
+            if (!is_crouching)
+                moveDirection = Input.GetKey(KeyCode.A) ? -1 : 1;
         }
         else
         {
@@ -90,10 +90,10 @@ public class playercontroller : MonoBehaviour
         // Camera follow
         if (mainCamera)
             mainCamera.transform.position = new Vector3(t.position.x, cameraPos.y, cameraPos.z);
-        
-        
-        
-        
+
+
+
+
         //Animations 
 
         //RUN_animation
@@ -103,7 +103,7 @@ public class playercontroller : MonoBehaviour
         anim.SetBool("intheair", !isGrounded);
         if (isGrounded == true && Input.GetKeyDown(KeyCode.W))
         {
-            anim.SetTrigger("jumping"); 
+            anim.SetTrigger("jumping");
         }
 
 
@@ -116,12 +116,8 @@ public class playercontroller : MonoBehaviour
         }
 
 
-<<<<<<< HEAD
-        if (Input.GetKeyDown(KeyCode.S) && isGrounded )
-=======
         //CROUCH_animations
         if (isGrounded && (moveDirection == 0))
->>>>>>> 37b3343f25fabe5dce168c700776c74deb043251
         {
             anim.SetBool("is_crouching", Input.GetKey(KeyCode.S));
         }
@@ -133,17 +129,17 @@ public class playercontroller : MonoBehaviour
 
 
 
-        void FixedUpdate()
-        {
-            Bounds colliderBounds = mainCollider.bounds;
-            Vector3 groundCheckPos = colliderBounds.min + new Vector3(colliderBounds.size.x * 0.5f, 0.1f, 0);
-            // Check if player is grounded
-            isGrounded = Physics2D.OverlapCircle(groundCheckPos, 0.23f, layerMask);
+    void FixedUpdate()
+    {
+        Bounds colliderBounds = mainCollider.bounds;
+        Vector3 groundCheckPos = colliderBounds.min + new Vector3(colliderBounds.size.x * 0.5f, 0.1f, 0);
+        // Check if player is grounded
+        isGrounded = Physics2D.OverlapCircle(groundCheckPos, 0.23f, layerMask);
 
-            // Apply movement velocity
-            r2d.velocity = new Vector2((moveDirection) * maxSpeed, r2d.velocity.y);
+        // Apply movement velocity
+        r2d.velocity = new Vector2((moveDirection) * maxSpeed, r2d.velocity.y);
 
-            // Simple debug
-            Debug.DrawLine(groundCheckPos, groundCheckPos - new Vector3(0, 0.23f, 0), isGrounded ? Color.green : Color.red);
-        }
- }
+        // Simple debug
+        Debug.DrawLine(groundCheckPos, groundCheckPos - new Vector3(0, 0.23f, 0), isGrounded ? Color.green : Color.red);
+    }
+}
