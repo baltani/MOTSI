@@ -11,7 +11,7 @@ public class enemyspawner : MonoBehaviour
     public GameObject enemy;
     float randX;
     Vector2 SpawnPoint;
-    public float SpawnRate = 2f;
+    public float SpawnRate = 1000000f;
     float nextSpawn = 0.0f;
         
    
@@ -23,7 +23,7 @@ public class enemyspawner : MonoBehaviour
             nextSpawn = Time.time + SpawnRate;
             randX = UnityEngine.Random.Range(-12.0f, 20.0f);
             SpawnPoint = new Vector2(randX, transform.position.y);
-            Instantiate(enemy, SpawnPoint, Quaternion.identity);
+            //Instantiate(enemy, SpawnPoint, Quaternion.identity);
         }
         
     }
