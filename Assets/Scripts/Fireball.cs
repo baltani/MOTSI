@@ -34,12 +34,12 @@ public class Fireball : MonoBehaviour
                 rb.velocity = -1f*  rb.velocity;
                 transform.Rotate(0f, 180, 0f);
                 bounce = false;
-            }
-            else
+            } else
             {
                 Destroy(gameObject);
             }
 
+           
 
         }
     }

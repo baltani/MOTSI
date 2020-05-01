@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PolygonCollider2D))]
 
-public class playercontroller : MonoBehaviour
+public class Dragon_Control : MonoBehaviour
 {
     // Move player in 2D space
     public float maxSpeed = 3.4f;
@@ -48,15 +48,15 @@ public class playercontroller : MonoBehaviour
     {
 
 
-        is_crouching = Input.GetKey(KeyCode.S);
+        is_crouching = Input.GetKey(KeyCode.DownArrow);
 
 
 
         // Movement controls
-        if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && (isGrounded || r2d.velocity.x > 0.01f))
+        if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) && (isGrounded || r2d.velocity.x > 0.01f))
         {
             if (!is_crouching)
-                moveDirection = Input.GetKey(KeyCode.A) ? -1 : 1;
+                moveDirection = Input.GetKey(KeyCode.LeftArrow) ? -1 : 1;
         }
         else
         {
@@ -82,7 +82,7 @@ public class playercontroller : MonoBehaviour
         }
 
         // Jumping
-        if (Input.GetKeyDown(KeyCode.W) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded)
         {
             r2d.velocity = new Vector2(r2d.velocity.x, jumpHeight);
         }
@@ -99,9 +99,8 @@ public class playercontroller : MonoBehaviour
         //RUN_animation
         anim.SetBool("isrunning", moveDirection != 0);
 
-        //JUMP_animation
-        anim.SetBool("intheair", !isGrounded);
-        if (isGrounded == true && Input.GetKeyDown(KeyCode.W))
+        //JUMP_animation        anim.SetBool("intheair", !isGrounded);
+        if (isGrounded == true && Input.GetKeyDown(KeyCode.UpArrow))
         {
             anim.SetTrigger("jumping");
         }
@@ -110,7 +109,7 @@ public class playercontroller : MonoBehaviour
 
 
         //ATTACK_animation
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             anim.SetTrigger("attack");
         }
@@ -119,9 +118,9 @@ public class playercontroller : MonoBehaviour
         //CROUCH_animations
         if (isGrounded && (moveDirection == 0))
         {
-            anim.SetBool("is_crouching", Input.GetKey(KeyCode.S));
+            anim.SetBool("is_crouching", Input.GetKey(KeyCode.DownArrow));
         }
-        else if (Input.GetKeyDown(KeyCode.S) && isGrounded && !(moveDirection == 0))
+        else if (Input.GetKeyDown(KeyCode.DownArrow) && isGrounded && !(moveDirection == 0))
         {
             anim.SetTrigger("crouchdash");
         }
