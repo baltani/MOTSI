@@ -12,6 +12,7 @@ public class Dragon_Control : MonoBehaviour
     public float jumpHeight = 6.5f;
     public float gravityScale = 1.5f;
     public Camera mainCamera;
+    public Vector2 respawnPoint;
 
     bool facingRight = true;
     float moveDirection = 0;
@@ -25,6 +26,7 @@ public class Dragon_Control : MonoBehaviour
 
     private Animator anim;
     private bool is_crouching;
+    private bool candoublejump = true;
 
     // Use this for initialization
     void Start()
@@ -38,6 +40,7 @@ public class Dragon_Control : MonoBehaviour
         r2d.gravityScale = gravityScale;
         facingRight = t.localScale.x > 0;
         gameObject.layer = 8;
+        respawnPoint = transform.position;
 
         if (mainCamera)
             cameraPos = mainCamera.transform.position;
@@ -81,10 +84,26 @@ public class Dragon_Control : MonoBehaviour
             }
         }
 
-        // Jumping
-        if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded)
+        // Jumping 
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            r2d.velocity = new Vector2(r2d.velocity.x, jumpHeight);
+            //RaycastHit2D hit2D = Physics2D.Raycast(r2d.position, Vector2.down, mask);
+            //float distance = hit2D.point.y;//- r2d.position.y; // Mathf.Abs(hit2D.point.y - r2d.position.y);
+            //Debug.Log(distance);
+            if (isGrounded)//(distance < 0.1) // need to find out what distance this is but somehow Raycast not working
+            {
+                candoublejump = true;
+                Jump();
+
+            }
+            else
+            {
+                if (candoublejump)
+                {
+                    candoublejump = false;
+                    Jump();
+                }
+            }
         }
 
         // Camera follow
@@ -126,7 +145,17 @@ public class Dragon_Control : MonoBehaviour
         }
     }
 
-
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "FallDetector")
+        {
+            transform.position = respawnPoint;
+        }
+        if (other.tag == "Checkpoint")
+        {
+            respawnPoint = other.transform.position;
+        }
+    }
 
     void FixedUpdate()
     {
@@ -136,9 +165,16 @@ public class Dragon_Control : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheckPos, 0.23f, layerMask);
 
         // Apply movement velocity
-        r2d.velocity = new Vector2((moveDirection) * maxSpeed, r2d.velocity.y);
-
+        //r2d.velocity = new Vector2((moveDirection) * maxSpeed, r2d.velocity.y);
+        GetComponent<Rigidbody2D>().AddForce(new Vector2((moveDirection) * maxSpeed, r2d.velocity.y));
         // Simple debug
         Debug.DrawLine(groundCheckPos, groundCheckPos - new Vector3(0, 0.23f, 0), isGrounded ? Color.green : Color.red);
+    }
+
+
+    void Jump()
+    {
+        GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0);
+        GetComponent<Rigidbody2D>().AddForce(new Vector2(0, jumpHeight));
     }
 }
