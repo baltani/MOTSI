@@ -60,7 +60,7 @@ public class playercontroller : MonoBehaviour
         
 
         // Movement controls
-        if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && (isGrounded || r2d.velocity.x > 0.01f))
+        if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && (isGrounded ))//|| r2d.velocity.x > 0.01f))
         {
             if (!is_crouching)
                 moveDirection = Input.GetKey(KeyCode.A) ? -1 : 1;

@@ -162,11 +162,26 @@ public class Dragon_Control : MonoBehaviour
         Bounds colliderBounds = mainCollider.bounds;
         Vector3 groundCheckPos = colliderBounds.min + new Vector3(colliderBounds.size.x * 0.5f, 0.1f, 0);
         // Check if player is grounded
-        isGrounded = Physics2D.OverlapCircle(groundCheckPos, 0.23f, layerMask);
+        //isGrounded = Physics2D.OverlapCircle(groundCheckPos, 0.23f, layerMask);
+        isGrounded = Physics2D.OverlapBox(groundCheckPos, new Vector2(1, 4), 0, layerMask);
 
         // Apply movement velocity
         //r2d.velocity = new Vector2((moveDirection) * maxSpeed, r2d.velocity.y);
-        GetComponent<Rigidbody2D>().AddForce(new Vector2((moveDirection) * maxSpeed, r2d.velocity.y));
+        if (moveDirection == 0)
+        {
+            r2d.velocity = new Vector2(0, r2d.velocity.y);
+        }
+        else
+        {
+            if (r2d.velocity.x < 10)
+            {
+                GetComponent<Rigidbody2D>().AddForce(new Vector2((moveDirection) * 15, r2d.velocity.y));
+            }
+            else
+            {
+                r2d.velocity = new Vector2((moveDirection) * maxSpeed, r2d.velocity.y);
+            }
+        }
         // Simple debug
         Debug.DrawLine(groundCheckPos, groundCheckPos - new Vector3(0, 0.23f, 0), isGrounded ? Color.green : Color.red);
     }
