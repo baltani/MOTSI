@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - FallDetector
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -54,6 +55,9 @@ TagManager:
     locked: 0
   - name: Ninja
     uniqueID: 364356645
+    locked: 0
+  - name: Fireball
+    uniqueID: 3227646555
     locked: 0
   - name: Deko
     uniqueID: 430793021
